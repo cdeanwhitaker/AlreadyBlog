@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE web-app
+    PUBLIC "-//Sun Microsystems, Inc.//DTD Web Application 2.3//EN"
+    "http://java.sun.com/dtd/web-app_2_3.dtd">
+<web-app>
+
+<!--
+ * web.xml
+ *
+ * Copyright (c) 2006, C. Dean Whitaker
+ *
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THIS COMMON PUBLIC LICENSE
+ * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ *    
+ * You can obtain a current copy of the Common Public License from
+ * http://www.ibm.com/developerworks/library/os-cpl.html
+-->
+
+    <display-name>website</display-name>
+    <description>Bob's Website</description>
+
+<!-- bob's blog -->
+    <servlet>
+        <servlet-name>AlreadyBlogServlet</servlet-name>
+        <servlet-class>alreadyblog.AlreadyBlogServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ImageViewerServlet</servlet-name>
+        <servlet-class>alreadyblog.ImageViewerServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>ArchiveServlet</servlet-name>
+        <servlet-class>alreadyblog.ArchiveServlet</servlet-class>
+    </servlet>
+    <servlet>
+        <servlet-name>DBAServlet</servlet-name>
+        <servlet-class>alreadyblog.DBAServlet</servlet-class>
+    </servlet>
+
+<!-- ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ -->
+
+<!-- bob's blog -->
+    <servlet-mapping>
+        <servlet-name>AlreadyBlogServlet</servlet-name>
+        <url-pattern>/bobsblog</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ImageViewerServlet</servlet-name>
+        <url-pattern>/bobsblogimg</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>ArchiveServlet</servlet-name>
+        <url-pattern>/bobsblogarch</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>DBAServlet</servlet-name>
+        <url-pattern>/bobsblogdba</url-pattern>
+    </servlet-mapping>
+
+<!-- ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ ~ -->
+
+</web-app>

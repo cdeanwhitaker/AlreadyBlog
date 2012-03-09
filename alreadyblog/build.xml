@@ -1,0 +1,202 @@
+<!--
+ * build.xml
+ *
+ * Copyright (c) 2006, C. Dean Whitaker
+ *
+ * THIS FILE IS PROVIDED UNDER THE TERMS OF THIS COMMON PUBLIC LICENSE
+ * ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THIS FILE
+ * CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.
+ *    
+ * You can obtain a current copy of the Common Public License from
+ * http://www.ibm.com/developerworks/library/os-cpl.html
+-->
+<project name="website" basedir="." default="all">
+
+	<property file="tomcat.properties" />
+
+	<!-- Start Local Properties -->
+	<property name="libs" value="${tomcat-home}/common/lib/servlet-api.jar" />
+
+	<!-- End Local Properties -->
+
+	<!-- Start Staging Properties -->
+	<property name="lib-dir" value="${basedir}/lib" />
+	<property name="classes-dir" value="${basedir}/WEB-INF/classes" />
+	<property name="deploy-dir" value="${basedir}/deploy" />
+	<property name="img-dir" value="${deploy-dir}/img" />
+	<property name="doc-dir" value="${basedir}/docs" />
+	<property name="war-file" value="${basedir}/lib/alreadyblog.war" />
+	<!-- End Staging Properties -->
+
+	<!-- Start Staging -->
+	<target name="init">
+		<available property="classdir" file="${class-dir}" type="dir" />
+		<antcall target="init-classes" />
+
+		<available property="libdir" file="${lib-dir}" type="dir" />
+		<antcall target="init-lib" />
+
+		<available property="javadocdir" file="${doc-dir}/javadocs" type="dir" />
+		<antcall target="init-javadocs" />
+
+		<available property="imgdir" file="${deploy-dir}/img" type="dir" />
+		<antcall target="init-img" />
+
+		<available property="cssfile" file="${deploy-dir}/alreadyblog.css" type="file" />
+		<antcall target="init-css" />
+	</target>
+
+	<target name="init-classes" unless="classdir">
+		<mkdir dir="${classes-dir}" />
+	</target>
+
+	<target name="init-lib" unless="libdir">
+		<mkdir dir="${lib-dir}" />
+	</target>
+
+	<target name="init-javadocs" unless="javadocdir">
+		<mkdir dir="${doc-dir}/javadocs" />
+	</target>
+
+	<target name="init-img" unless="imgdir">
+		<mkdir dir="${deploy-dir}/img" />
+	</target>
+
+	<target name="init-css" unless="cssfile">
+		<echo file="${deploy-dir}/alreadyblog.css" append="true">h1 {
+	color: #A7B5D8;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	font-size: 2.0em;
+	text-decoration: none;
+}
+h4 {
+	color: #A7B5D8;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	font-size: 1.1em;
+	text-decoration: none;
+}
+h5 {
+	color: #A7B5D8;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	font-size: 0.9em;
+	text-decoration: none;
+}
+.sidelink {
+	color: #FF1122;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+}
+.sidelinkimg {
+	border-left: 3pt solid #884455;
+	border-top: 3pt solid #884455;
+	border-right: 3pt solid #440011;
+	border-bottom: 3pt solid #440011;
+}</echo>
+	</target>
+	<!-- End Staging -->
+
+	<target name="comp">
+		<javac
+			classpath="${libs}:${basedir}/src"
+			destdir="${classes-dir}"
+			srcdir="${basedir}/src"
+		>
+			<include name="**/*java" />
+		</javac>
+	</target>
+
+	<target name="javadoc">
+		<javadoc
+			doctitle="${ant.project.name} API Documentation"
+			windowtitle="${ant.project.name} API Documentation"
+			sourcepath="${basedir}/src"
+			classpath="${libs}:${classes-dir}"
+			packagenames="alreadyblog.*"
+			destdir="${doc-dir}/javadocs"
+			bottom="Copyright &#169; 2006 C. Dean Whitaker.  All Rights Reserved."
+		/>
+	</target>
+
+	<target name="dist">
+		<echo>${classes-dir}</echo>
+		<war
+			warfile="${war-file}"
+			webxml="${basedir}/WEB-INF/web.xml"
+		>
+			<classes dir="${classes-dir}" />
+			<fileset dir="${deploy-dir}">
+				<include name="*.css" />
+				<include name="img/*.png" />
+			</fileset>
+		</war>
+	</target>
+
+	<target name="deploy">
+		<copy file="${war-file}" todir="${tomcat-home}/webapps" />
+	</target>
+
+	<target name="unit-test">
+	</target>
+
+	<target name="regression-test">
+	</target>
+
+	<target name="clean">
+		<delete>
+			<fileset dir="${classes-dir}" includes="**/*class" />
+			<fileset dir="${lib-dir}" includes="**/*war" />
+		</delete>
+	</target>
+
+	<target name="clean-tree">
+		<delete>
+			<fileset dir="${deploy-dir}" includes="**/*" />
+			<fileset dir="${doc-dir}" includes="**/*" />
+		</delete>
+		<delete dir="${classe-dir}" />
+		<delete dir="${lib-dir}" />
+		<delete dir="${deploy-dir}" />
+		<delete dir="${doc-dir}" />
+	</target>
+
+	<target name="help">
+		<echo>"ant all" to set up the generated directories</echo>
+		<echo>"ant now" (default target) will compile and deploy after that</echo>
+	</target>
+
+	<target name="all">
+		<antcall target="license" />
+		<antcall target="init" />
+		<antcall target="clean" />
+		<antcall target="comp" />
+		<antcall target="javadoc" />
+		<antcall target="dist" />
+		<antcall target="unit-test" />
+		<antcall target="deploy" />
+		<antcall target="regression-test" />
+	</target>
+
+	<target name="now">
+		<antcall target="license" />
+		<antcall target="comp" />
+		<antcall target="dist" />
+		<antcall target="deploy" />
+	</target>
+
+	<target name="license">
+   	<echo></echo>
+		<echo>Copyright (c) 2006, C. Dean Whitaker</echo>
+		<echo></echo>
+		<echo>THE ACCOMPANYING PROGRAM IS PROVIDED UNDER THE TERMS OF THIS COMMON PUBLIC</echo>
+		<echo>LICENSE ("AGREEMENT"). ANY USE, REPRODUCTION OR DISTRIBUTION OF THE PROGRAM</echo>
+		<echo>CONSTITUTES RECIPIENT'S ACCEPTANCE OF THIS AGREEMENT.</echo>
+   	<echo></echo>
+		<echo>You can obtain a current copy of the Common Public License from</echo>
+		<echo>http://oss.software.ibm.com/developerworks/opensource/license-cpl.html</echo>
+   	<echo></echo>
+	</target>
+</project>

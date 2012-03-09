@@ -1,0 +1,33 @@
+h1 {
+	color: #A7B5D8;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	font-size: 2.0em;
+	text-decoration: none;
+}
+h4 {
+	color: #A7B5D8;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	font-size: 1.1em;
+	text-decoration: none;
+}
+h5 {
+	color: #A7B5D8;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	font-size: 0.9em;
+	text-decoration: none;
+}
+.sidelink {
+	color: #FF1122;
+	font-family: URW Gothic L,sans-serif;
+	font-weight: bold;
+	text-decoration: none;
+}
+.sidelinkimg {
+	border-left: 3pt solid #884455;
+	border-top: 3pt solid #884455;
+	border-right: 3pt solid #440011;
+	border-bottom: 3pt solid #440011;
+}
